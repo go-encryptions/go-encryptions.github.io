@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Site.Title }} — pure-Go encryption primitives</title>
+<meta name="description" content="Pure-Go encryption primitives, no cgo: AES-CCM AEAD (RFC 3610 / NIST SP 800-38C) and the cryptographic half of OpenZFS native dataset encryption (PBKDF2 / HKDF key derivation, AES-CCM/GCM block decryption). CGO_ENABLED=0, BSD-3-Clause.">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1b1f24; --muted: #57606a; --card: #f6f8fa;
+    --border: #d0d7de; --accent: #0079a8; --accent-fg: #ffffff;
+    --aead: #0079a8; --disk: #9a6700;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22;
+      --border: #30363d; --accent: #22cce2; --accent-fg: #0d1117;
+      --aead: #22cce2; --disk: #d29922;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 72px 0 32px; text-align: center; }
+  .logo { width: 88px; height: 88px; margin: 0 auto 18px; display: block; }
+  h1 { font-size: 2.6rem; margin: 0 0 .3em; letter-spacing: -.02em; }
+  .tagline { font-size: 1.2rem; color: var(--muted); margin: 0 auto; max-width: 680px; }
+  .pills { margin: 22px 0 0; }
+  .pill {
+    display: inline-block; margin: 4px; padding: 3px 10px; font-size: .82rem;
+    color: var(--muted); background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+  }
+  .cta { margin: 30px 0 0; }
+  .btn {
+    display: inline-block; padding: 10px 18px; margin: 4px; border-radius: 8px; text-decoration: none;
+    font-weight: 600; border: 1px solid var(--border);
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .btn.ghost { color: var(--fg); background: transparent; }
+  .lead { color: var(--fg); max-width: 800px; margin: 8px auto 0; text-align: center; }
+  .lead code { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; }
+  h2.section { text-align: center; margin: 40px 0 4px; font-size: 1.4rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; }
+  .card h3 { margin: 0 0 .35em; font-size: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card h3 a { text-decoration: none; }
+  .card .accel { color: var(--muted); font-size: .85rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0 0 .6em; }
+  .card p.blurb { margin: 0; color: var(--fg); font-size: .95rem; }
+  .kind { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .kind.aead { color: var(--aead); }
+  .kind.disk { color: var(--disk); }
+  .card h3 .tags { display: inline-flex; gap: 6px; }
+  .type { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .type.lib { color: var(--accent); border-color: var(--accent); }
+  .type.cli { color: var(--accent-fg); background: var(--accent); border-color: var(--accent); }
+  .principles { color: var(--muted); text-align: center; padding: 10px 0 0; max-width: 820px; margin: 0 auto; }
+  footer { color: var(--muted); text-align: center; padding: 40px 0 56px; font-size: .9rem; }
+  a { color: var(--accent); }
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <header class="wrap">
+    <img class="logo" src="/img/logo.svg" alt="go-encryptions logo" width="88" height="88">
+    <h1>go-encryptions</h1>
+    <p class="tagline">Pure-Go <strong>encryption primitives</strong> — the AEAD modes and
+      disk-encryption crypto the standard library leaves out, with no cgo and no
+      <code>golang.org/x/crypto</code> dependency.</p>
+    <div class="pills">
+      <span class="pill">CGO_ENABLED=0</span>
+      <span class="pill">stdlib <code>crypto</code> only</span>
+      <span class="pill">no <code>x/crypto</code></span>
+      <span class="pill">standard <code>cipher.AEAD</code> interfaces</span>
+      <span class="pill">BSD-3-Clause</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="https://go-encryptions.github.io/docs/">Documentation</a>
+      <a class="btn ghost" href="https://github.com/go-encryptions">GitHub</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="lead">A small family of pure-Go encryption building blocks that sit just below
+      application code: cipher modes and key-derivation paths that the Go standard library does not
+      ship, exposed through the same <code>crypto/cipher</code> interfaces you already use. The first
+      piece, <code>ccm</code>, supplies the AES-CCM AEAD that <code>crypto/cipher</code> omits; the
+      second, <code>zfscrypt</code>, builds on it to decrypt OpenZFS native-encrypted datasets.</p>
+
+    <p class="lead"><strong>Pure Go, no cgo.</strong> Everything compiles and runs anywhere Go does,
+      using only <code>crypto/aes</code>, <code>crypto/cipher</code> and the rest of the standard
+      <code>crypto</code> tree — no C bindings, no third-party crypto dependency. Implementations
+      follow their reference specifications (RFC 3610 / NIST SP 800-38C for CCM; the OpenZFS on-disk
+      crypto layout for <code>zfscrypt</code>) and ship with Go test suites.</p>
+
+    <h2 class="section">Repositories</h2>
+    <section class="grid">
+      {{ range .Site.Params.repos }}
+      <article class="card">
+        <h3>
+          <a href="https://github.com/go-encryptions/{{ .name }}"><code>{{ .name }}</code></a>
+          <span class="tags"><span class="type {{ .type }}">{{ .type }}</span><span class="kind {{ .kind }}">{{ .kind }}</span></span>
+        </h3>
+        <p class="accel">{{ .accel }}</p>
+        <p class="blurb">{{ .blurb }}</p>
+      </article>
+      {{ end }}
+    </section>
+    <p class="principles">Every module is pure Go with <code>CGO_ENABLED=0</code> and depends only on
+      the standard <code>crypto</code> packages (no <code>golang.org/x/crypto</code>). Algorithms
+      follow their reference specifications and expose the idiomatic <code>cipher.AEAD</code> /
+      <code>hash</code> interfaces so they drop into existing code. BSD-3-Clause throughout.</p>
+  </main>
+
+  <footer class="wrap">
+    BSD-3-Clause · <a href="https://github.com/go-encryptions">github.com/go-encryptions</a>
+  </footer>
+</body>
+</html>

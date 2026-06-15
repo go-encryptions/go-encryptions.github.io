@@ -1,0 +1,22 @@
+baseURL = "https://go-encryptions.github.io/"
+title = "go-encryptions"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+# Each repo card. "blurb" is an honest one-paragraph description of what
+# the module actually does today. "kind" groups by concern (AEAD cipher
+# mode vs. disk-encryption crypto); "type" = lib vs cli.
+[[params.repos]]
+  name = "ccm"
+  accel = "AES-CCM AEAD (NewCCM / Seal / Open)"
+  kind = "aead"
+  type = "lib"
+  blurb = "Pure-Go CCM (Counter with CBC-MAC) per RFC 3610 and NIST SP 800-38C — the AEAD mode the standard library's crypto/cipher does not provide (it only ships GCM). Wraps any 128-bit cipher.Block as a standard cipher.AEAD, with configurable tag (4..16) and nonce (7..13) sizes. No cgo, no golang.org/x/crypto."
+[[params.repos]]
+  name = "zfscrypt"
+  accel = "OpenZFS native-encryption crypto (read path)"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go implementation of the cryptographic half of OpenZFS dataset-level (native) encryption: PBKDF2 wrapping-key derivation, master-key unwrap, HKDF-SHA512 per-block key derivation, and AES-CCM/GCM block decryption. Covers AES-128/192/256 in CCM (via ccm) and GCM (stdlib). Read path only today — enough to pull files out of an encrypted root."
