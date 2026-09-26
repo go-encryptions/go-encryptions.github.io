@@ -8,7 +8,12 @@
 # are public reads, so this runs on github.token.
 name: docs
 
-on: [push, pull_request]
+# ⛔ NOT `on: [push, pull_request]`: both fire for a branch with a pull request
+# open, so every push runs the check twice.
+on:
+  pull_request:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
