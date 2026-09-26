@@ -20,3 +20,15 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   kind = "disk"
   type = "lib"
   blurb = "Pure-Go implementation of the cryptographic half of OpenZFS dataset-level (native) encryption: PBKDF2 wrapping-key derivation, master-key unwrap, HKDF-SHA512 per-block key derivation, and AES-CCM/GCM block decryption. Covers AES-128/192/256 in CCM (via ccm) and GCM (stdlib). Read path only today — enough to pull files out of an encrypted root."
+[[params.repos]]
+  name = "xts"
+  accel = "XTS-AES, four blocks at a time (AES-NI / ARMv8 AES)"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go XTS-AES (IEEE P1619, NIST SP 800-38E) — the sector-level mode LUKS, FileVault 2, BitLocker and dm-crypt use. A drop-in replacement for <code>golang.org/x/crypto/xts</code>, byte-identical output, same API; the difference is that it pipelines four AES blocks and folds the tweak XOR into the round pipeline instead of driving <code>cipher.Block</code> one 16-byte block at a time. Assembly on amd64 and arm64; riscv64, loong64, ppc64le and s390x fall back to the same per-block algorithm, so behaviour is identical everywhere and only the speed differs."
+[[params.repos]]
+  name = "unixcrypt"
+  accel = "crypt(3) / MCF: $1$, $5$, $6$, $2a$..$2y$"
+  kind = "password"
+  type = "lib"
+  blurb = "Pure-Go crypt(3)/MCF password hashes: MD5-crypt, SHA-256-crypt and SHA-512-crypt per Drepper's specification, and bcrypt over the pure-Go blowfish primitive. Nothing links libc's own <code>crypt(3)</code>, so it cross-compiles and gives identical output on every Go target, big-endian s390x included. Validated against real <code>openssl passwd</code> and the canonical OpenBSD <code>bcrypt.c</code> vectors. Extracted from go-puppet/puppet's <code>pw_hash()</code> so that go-puppet and go-ansible/template share one implementation rather than each having their own."
