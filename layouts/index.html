@@ -9,20 +9,20 @@
   :root {
     --bg: #ffffff; --fg: #1b1f24; --muted: #57606a; --card: #f6f8fa;
     --border: #d0d7de; --accent: #0079a8; --accent-fg: #ffffff;
-    --aead: #0079a8; --disk: #9a6700;
+    --aead: #0079a8; --disk: #9a6700; --password: #6639ba;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
       --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22;
       --border: #30363d; --accent: #22cce2; --accent-fg: #0d1117;
-      --aead: #22cce2; --disk: #d29922;
+      --aead: #22cce2; --disk: #d29922; --password: #b083f0;
     }
   }
   /* Forced dark (manual toggle). */
   :root[data-theme="dark"] {
       --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22;
       --border: #30363d; --accent: #22cce2; --accent-fg: #0d1117;
-      --aead: #22cce2; --disk: #d29922;
+      --aead: #22cce2; --disk: #d29922; --password: #b083f0;
   }
   .theme-toggle {
     position: fixed; top: 14px; right: 14px; z-index: 10;
@@ -63,6 +63,7 @@
   .kind { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
   .kind.aead { color: var(--aead); }
   .kind.disk { color: var(--disk); }
+  .kind.password { color: var(--password); }
   .card h3 .tags { display: inline-flex; gap: 6px; }
   .type { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
   .type.lib { color: var(--accent); border-color: var(--accent); }

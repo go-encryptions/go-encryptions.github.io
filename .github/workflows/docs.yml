@@ -1,0 +1,18 @@
+# Does this organisation advertise what it has?
+#
+# The landing drifts silently: a repository is created, and nothing in any
+# repository fails because no page mentions it. go-encryptions had four modules
+# and named two — xts and unixcrypt were invisible for as long as they existed.
+#
+# ⛔ It needs NO secret. Listing a public organisation and reading its surfaces
+# are public reads, so this runs on github.token.
+name: docs
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  current:
+    uses: go-fleettools/fleettools/.github/workflows/docs-current.yml@main
