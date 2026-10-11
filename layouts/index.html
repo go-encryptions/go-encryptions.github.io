@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{/* Dark Reader repaints pages that already draw their own dark theme, as this one does: ask it to stand aside. */}}
+<meta name="darkreader-lock">
 <title>{{ .Site.Title }} — pure-Go encryption primitives</title>
 <meta name="description" content="Pure-Go encryption primitives, no cgo: AES-CCM AEAD (RFC 3610 / NIST SP 800-38C) and the cryptographic half of OpenZFS native dataset encryption (PBKDF2 / HKDF key derivation, AES-CCM/GCM block decryption). CGO_ENABLED=0, BSD-3-Clause.">
 <style>
