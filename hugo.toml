@@ -32,6 +32,18 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   type = "lib"
   blurb = "Pure-Go XTS-AES (IEEE P1619, NIST SP 800-38E) — the sector-level mode LUKS, FileVault 2, BitLocker and dm-crypt use. A drop-in replacement for <code>golang.org/x/crypto/xts</code>, byte-identical output, same API; the difference is that it pipelines four AES blocks and folds the tweak XOR into the round pipeline instead of driving <code>cipher.Block</code> one 16-byte block at a time. Assembly on amd64 and arm64; riscv64, loong64, ppc64le and s390x fall back to the same per-block algorithm, so behaviour is identical everywhere and only the speed differs."
 [[params.repos]]
+  name = "cbc"
+  accel = "AES-CBC, 8-block arm64 decryption kernel"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go AES-CBC for disk encryption, byte-identical to <code>crypto/cipher</code>. CBC decryption is parallel, so on arm64 it interleaves the rounds of 8 blocks with every round key in a register, and <code>EncryptECB</code> computes per-sector IVs (BitLocker's eboiv, LUKS's essiv) 8 at a time. Ahead of OpenSSL 3.6.5 on one core (AES-256, 4 KiB: 15.3 vs 13.0 GB/s), with zero allocations per call. Other architectures go through <code>crypto/cipher</code> with the same output."
+[[params.repos]]
+  name = "serpent"
+  accel = "Serpent block cipher, 128/192/256-bit keys (cipher.Block)"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go bitsliced Serpent (Anderson, Biham and Knudsen), a standard <code>cipher.Block</code> for 16-, 24- and 32-byte keys, in the byte order of Botan, VeraCrypt and the Linux <code>serpent</code> algorithm. Checked against all of Botan's Serpent vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built to open VeraCrypt volumes (Serpent-XTS) through <code>xts</code>."
+[[params.repos]]
   name = "unixcrypt"
   accel = "crypt(3) / MCF: $1$, $5$, $6$, $2a$..$2y$"
   kind = "password"
