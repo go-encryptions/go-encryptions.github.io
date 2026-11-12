@@ -56,6 +56,18 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   type = "lib"
   blurb = "Pure-Go Kuznyechik (GOST R 34.12-2015, RFC 7801), a standard <code>cipher.Block</code> for 32-byte keys, in the byte order of the RFC and of VeraCrypt. Checked against the RFC 7801 vectors, Botan's Kuznyechik vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built to open VeraCrypt volumes (Kuznyechik-XTS) through <code>xts</code>."
 [[params.repos]]
+  name = "whirlpool"
+  accel = "Whirlpool-512 hash (ISO/IEC 10118-3), hash.Hash"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go Whirlpool-512 (ISO/IEC 10118-3, the final 2003 version of Barreto and Rijmen), a standard <code>hash.Hash</code> that saves and restores its state so <code>crypto/hmac</code> and <code>crypto/pbkdf2</code> work without rehashing the key (PBKDF2 1.42x faster). Checked against the ISO vectors, the million-a vector, Botan's Whirlpool vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built for the VeraCrypt PBKDF2 PRF."
+[[params.repos]]
+  name = "streebog"
+  accel = "Streebog hash (GOST R 34.11-2012), 256 and 512 bits, hash.Hash"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go Streebog (GOST R 34.11-2012, RFC 6986) with 256- and 512-bit digests as standard <code>hash.Hash</code> values that save and restore their state, with the RFC's big-endian prints against the byte-string order documented. Checked against the RFC 6986 examples, Botan's Streebog vectors and a differential corpus generated from the Botan command line, fuzzed, tested on big-endian s390x, and faster than Botan on one core. Built for the VeraCrypt PBKDF2 PRF."
+[[params.repos]]
   name = "unixcrypt"
   accel = "crypt(3) / MCF: $1$, $5$, $6$, $2a$..$2y$"
   kind = "password"
