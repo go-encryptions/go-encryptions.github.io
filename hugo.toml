@@ -68,6 +68,12 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   type = "lib"
   blurb = "Pure-Go Streebog (GOST R 34.11-2012, RFC 6986) with 256- and 512-bit digests as standard <code>hash.Hash</code> values that save and restore their state, with the RFC's big-endian prints against the byte-string order documented. Checked against the RFC 6986 examples, Botan's Streebog vectors and a differential corpus generated from the Botan command line, fuzzed, tested on big-endian s390x, and faster than Botan on one core. Built for the VeraCrypt PBKDF2 PRF."
 [[params.repos]]
+  name = "twofish"
+  accel = "Twofish block cipher, 128/192/256-bit keys (cipher.Block)"
+  kind = "disk"
+  type = "lib"
+  blurb = "Pure-Go Twofish (Schneier et al., 1998), a standard <code>cipher.Block</code> for 16-, 24- and 32-byte keys, with the key-dependent S-boxes expanded into four tables per key. Checked against the designers' known-answer and Monte Carlo tests, Botan's Twofish vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. An optional batched path is 1.32x faster than Botan on one core and the one-block path 2.2x faster than <code>x/crypto/twofish</code>. Built to open VeraCrypt volumes (Twofish-XTS) through <code>xts</code>."
+[[params.repos]]
   name = "unixcrypt"
   accel = "crypt(3) / MCF: $1$, $5$, $6$, $2a$..$2y$"
   kind = "password"
