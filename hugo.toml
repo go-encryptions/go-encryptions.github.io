@@ -60,7 +60,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   accel = "Whirlpool-512 hash (ISO/IEC 10118-3), hash.Hash"
   kind = "disk"
   type = "lib"
-  blurb = "Pure-Go Whirlpool-512 (ISO/IEC 10118-3, the final 2003 version of Barreto and Rijmen), a standard <code>hash.Hash</code> that saves and restores its state so <code>crypto/hmac</code> and <code>crypto/pbkdf2</code> work without rehashing the key (PBKDF2 1.42x faster). Checked against the ISO vectors, the million-a vector, Botan's Whirlpool vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built for the VeraCrypt PBKDF2 PRF."
+  blurb = "Whirlpool-512 (ISO/IEC 10118-3, the final 2003 version of Barreto and Rijmen) in Go with an arm64 assembly kernel, 1.06x faster than Botan 3.14.1 at 1 KiB on an Apple M4 Max; a standard <code>hash.Hash</code> that saves and restores its state so <code>crypto/hmac</code> and <code>crypto/pbkdf2</code> work without rehashing the key (PBKDF2 1.42x faster). Checked against the ISO vectors, the million-a vector, Botan's Whirlpool vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built for the VeraCrypt PBKDF2 PRF."
 [[params.repos]]
   name = "streebog"
   accel = "Streebog hash (GOST R 34.11-2012), 256 and 512 bits, hash.Hash"
