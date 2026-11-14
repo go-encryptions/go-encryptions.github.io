@@ -39,10 +39,10 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   blurb = "Pure-Go AES-CBC for disk encryption, byte-identical to <code>crypto/cipher</code>. CBC decryption is parallel, so on arm64 it interleaves the rounds of 8 blocks with every round key in a register, and <code>EncryptECB</code> computes per-sector IVs (BitLocker's eboiv, LUKS's essiv) 8 at a time. Ahead of OpenSSL 3.6.5 on one core (AES-256, 4 KiB: 15.3 vs 13.0 GB/s), with zero allocations per call. Other architectures go through <code>crypto/cipher</code> with the same output."
 [[params.repos]]
   name = "serpent"
-  accel = "Serpent block cipher, 128/192/256-bit keys (cipher.Block)"
+  accel = "Serpent block cipher, AVX2 16-block kernel on amd64 (cipher.Block)"
   kind = "disk"
   type = "lib"
-  blurb = "Pure-Go bitsliced Serpent (Anderson, Biham and Knudsen), a standard <code>cipher.Block</code> for 16-, 24- and 32-byte keys, in the byte order of Botan, VeraCrypt and the Linux <code>serpent</code> algorithm. Checked against all of Botan's Serpent vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built to open VeraCrypt volumes (Serpent-XTS) through <code>xts</code>."
+  blurb = "Bitsliced Serpent (Anderson, Biham and Knudsen), a standard <code>cipher.Block</code> for 16-, 24- and 32-byte keys, with generated AVX2 kernels for <code>EncryptBlocks</code>/<code>DecryptBlocks</code> on amd64 (1.40x Botan 3.14.1's AVX2 build when encrypting and 1.23x when decrypting, 4 KiB on a Ryzen 9 7950X) and a pure-Go four-block path everywhere else, in the byte order of Botan, VeraCrypt and the Linux <code>serpent</code> algorithm. Checked against all of Botan's Serpent vectors and a differential corpus generated from the Botan command line, fuzzed, and tested on big-endian s390x. Built to open VeraCrypt volumes (Serpent-XTS) through <code>xts</code>."
 [[params.repos]]
   name = "camellia"
   accel = "Camellia block cipher, 128/192/256-bit keys (cipher.Block)"
