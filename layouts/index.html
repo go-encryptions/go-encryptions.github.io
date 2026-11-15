@@ -42,18 +42,16 @@
   <div class="hero"><div class="wrap">
     <div>
       <h1 class="head">go-encryptions</h1>
-      <p class="sub">Pure-Go <strong>encryption primitives</strong> — the AEAD modes and
-      disk-encryption crypto the standard library leaves out, with no cgo and no
+      <p class="sub">{{ if partial "mantra-on.html" . }}Go{{ else }}Pure-Go{{ end }} <strong>encryption primitives</strong> — the AEAD modes and
+      disk-encryption crypto the standard library leaves out, with {{ if not (partial "mantra-on.html" $) }}no cgo{{ end }} and no
       <code>golang.org/x/crypto</code> dependency.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://go-encryptions.github.io/docs/">{{ partial "icons/book.html" . }}Documentation</a>
-        <a class="btn btn-ghost" href="https://github.com/go-encryptions">{{ partial "icons/github.html" . }}GitHub</a>
-      </div>
-      <div class="trust">{{ if not (partial "mantra-on.html" $) }}<span class="pill">CGO_ENABLED=0</span>{{ end }}
+      {{/* [[params.cta]] in hugo.toml: the kit renders the row */}}
+      {{ partial "cta.html" . }}
+      <div class="trust">{{ if not (partial "mantra-on.html" $) }}{{ if not (partial "mantra-on.html" $) }}<span class="pill">CGO_ENABLED=0</span>{{ end }}{{ end }}
       <span class="pill">stdlib <code>crypto</code> only</span>
       <span class="pill">no <code>x/crypto</code></span>
       <span class="pill">standard <code>cipher.AEAD</code> interfaces</span>
-      {{ if not (partial "mantra-on.html" $) }}<span class="pill">BSD-3-Clause</span>{{ end }}</div>
+      {{ if not (partial "mantra-on.html" $) }}{{ if not (partial "mantra-on.html" $) }}<span class="pill">BSD-3-Clause</span>{{ end }}{{ end }}</div>
     </div>
     {{ partial "hero-carousel.html" . }}
   </div></div>
