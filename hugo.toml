@@ -14,6 +14,18 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
 # the module actually does today. "kind" groups by concern (AEAD cipher
 # mode vs. disk-encryption crypto); "type" = lib vs cli.
 [[params.repos]]
+  name = "ctr"
+  accel = "AES-CTR, key expanded once, eight blocks in flight (AES-NI / ARMv8 AES)"
+  kind = "disk"
+  type = "lib"
+  blurb = "AES in counter mode for a stream of messages under one key (v0.1.1). It expands the key once, loads it into registers once per call, keeps eight blocks in flight and allocates nothing; Zeroize wipes the round keys. Byte-for-byte the output of crypto/cipher.NewCTR on every architecture. Measured on an Apple M4 Max only, one core, 4 KiB: 306 ns against 444 ns for the standard library."
+[[params.repos]]
+  name = "argon2"
+  accel = "Argon2 (RFC 9106) with a NEON BLAMKA kernel on arm64"
+  kind = "disk"
+  type = "lib"
+  blurb = "Argon2 (v0.1.0): the API and the code of golang.org/x/crypto/argon2 plus an Advanced SIMD kernel for the BLAMKA compression function on arm64, where the standard package runs scalar Go. Same results as x/crypto, only faster: 41.6 ms against 93.6 ms for Argon2id t=3, m=64 MiB, p=1 on an Apple M4 Max, one core. Unchanged on amd64 and loong64."
+[[params.repos]]
   name = "ccm"
   accel = "AES-CCM AEAD (NewCCM / Seal / Open)"
   kind = "aead"
