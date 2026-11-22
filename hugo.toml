@@ -14,6 +14,12 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
 # the module actually does today. "kind" groups by concern (AEAD cipher
 # mode vs. disk-encryption crypto); "type" = lib vs cli.
 [[params.repos]]
+  name = "hmac"
+  accel = "HMAC and PBKDF2 whose keyed state can be wiped (pure Go over the standard hashes)"
+  kind = "disk"
+  type = "lib"
+  blurb = "HMAC with a Wipe method (v0.1.0): crypto/hmac keeps its pads inside digests a program cannot reach, so they cannot be zeroed. hmac precomputes the inner and outer keyed states (Reset hashes no pad), zeroes them on Wipe, and overwrites the live digests with the public initial state when the hash can be marshaled. It cannot reach copies the Go runtime or the hash made, and says so. Byte-for-byte the output of crypto/hmac; PBKDF2 (RFC 8018) on top. Level with crypto/hmac at 64 B and 4 KiB on an Apple M4 Max; other sizes and platforms are not yet measured."
+[[params.repos]]
   name = "ctr"
   accel = "AES-CTR, key expanded once, eight blocks in flight (AES-NI / ARMv8 AES)"
   kind = "disk"
