@@ -14,6 +14,12 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
 # the module actually does today. "kind" groups by concern (AEAD cipher
 # mode vs. disk-encryption crypto); "type" = lib vs cli.
 [[params.repos]]
+  name = "kdfbudget"
+  accel = "one bound on the total key-derivation work of an unlock (pure Go, no dependency)"
+  kind = "disk"
+  type = "lib"
+  blurb = "A Budget charged before every KDF run (PBKDF2, Argon2, other hash chains) in comparable work units (v0.1.0). A hostile header can hold many runs, each within its own limit, so the total is unbounded: 3155 runs in LUKS, 888 in APFS. A charge that does not fit is refused with ErrLimit and spends nothing; Argon2 memory, threads and a deadline are bounded too. The defaults accept the maxima of cryptsetup (4 GiB Argon2), VeraCrypt (PIM), BitLocker and OpenZFS (no maximum on pbkdf2iters), asserted by tests. The work units are conservative estimates, a denial-of-service bound and not a timer."
+[[params.repos]]
   name = "hmac"
   accel = "HMAC and PBKDF2 whose keyed state can be wiped (pure Go over the standard hashes)"
   kind = "disk"
